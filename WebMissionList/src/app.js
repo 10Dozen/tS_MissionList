@@ -329,7 +329,7 @@ var GridViewClass = function () {
 	this.modal_showPopup = function (data) {
 		$(`${this.$popup} h1`).text(data.title);
 		$(`${this.$popup} p[class='modal-terrain']`).text("at " + data.terrain);
-		$(`${this.$popup} img`).text(data.map_shot);
+		$(`${this.$popup} img`).attr("src", data.map_shot);
 		$(`${this.$popup} p[class='modal-briefing']`).html(data.briefing);
 		$(this.$popup).css("display","block");
 	}
