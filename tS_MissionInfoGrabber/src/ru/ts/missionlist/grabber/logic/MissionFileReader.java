@@ -15,22 +15,6 @@ public class MissionFileReader {
     private final Pattern overviewTextPattern = Pattern.compile("overviewText=\"(.*)\"");
     private final Pattern maxPlayersPattern = Pattern.compile("maxPlayers=(.*);");
 
-    private class MissionDetails implements Comparable<MissionDetails> {
-        public Details type;
-        public String value;
-
-        public MissionDetails(Details type, String value) {
-            this.type = type;
-            this.value = value;
-        }
-
-        @Override
-        public int compareTo(MissionDetails o) {
-            if (o == null) return 1;
-            return this.type.compareTo(o.type);
-        }
-    }
-
     private enum Details {
         TITLE, OVERVIEW, SLOTS
     }
@@ -51,17 +35,17 @@ public class MissionFileReader {
                     Matcher slotsMatcher = maxPlayersPattern.matcher(e);
 
                     if (titleMatcher.find()) {
-                        return new MissionDetails(Details.TITLE, titleMatcher.group(1));
+                        return new AbstractMap.SimpleEntry<>(Details.TITLE, titleMatcher.group(1));
                     } else if (overviewMatcher.find()) {
-                        return new MissionDetails(Details.OVERVIEW, overviewMatcher.group(1));
+                        return new AbstractMap.SimpleEntry<>(Details.OVERVIEW, overviewMatcher.group(1));
                     } else if (slotsMatcher.find()) {
-                        return new MissionDetails(Details.SLOTS, slotsMatcher.group(1));
+                        return new AbstractMap.SimpleEntry<>(Details.SLOTS, slotsMatcher.group(1));
                     } else {
                         return null;
                     }
                 })
                 .filter(Objects::nonNull)
-                .collect(TreeMap::new, (m,c) -> m.put(c.type, c.value), (m, u) -> {});
+                .collect(TreeMap::new, (m,c) -> m.put(c.getKey(), c.getValue()), (m, u) -> {});
 
         return new MissionData(
                 details.get(Details.TITLE)

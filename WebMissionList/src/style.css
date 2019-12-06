@@ -1,11 +1,54 @@
+body {
+	margin: 0px;
+	font-family: sans-serif;
+	background-color: #ececec;
+	overflow: auto;
+}
 
 .clickable {
 	cursor: pointer;
 }
 
-/*
-	Grid
+/* Header
 */
+
+@font-face {
+    font-family: "tSFont";
+    src: url(tS_EL.otf);
+}
+
+#header {
+	margin: 0px;
+	padding: 0px;
+	background-color: #252525;
+	color: white;
+}
+
+#header-sans {
+	font-family: sans-serif;
+	font-weight: 100;
+	font-size: 21px;
+	line-height: 45px;
+}
+
+#header-title {
+	font-size: 24px;
+	padding-left: 40px;
+	font-family: "tSFont";
+}
+
+#header-title span {
+	background-color: #c52334;
+	padding: 0px 4px;
+	border-radius: 0px 8px 8px 8px;
+}
+
+/* Grid
+*/
+#wrapper {
+	padding: 5px;
+}
+
 #grid {
 	border-collapse: collapse;
 	border: 1px solid #999999;
@@ -13,10 +56,14 @@
 }
 
 #grid th {
-	background-color: #dddddd;
-	border: 1px solid #999999;
+	background-color: #cccccc;
+	border: 1px solid #777777;
 	height: 30px;
 	padding: 10px 5px 10px 5px;
+}
+
+#grid tr:hover {
+	background-color: #cccccc;
 }
 
 .th-w {
@@ -48,19 +95,29 @@ td {
 }
 
 .td-tags {
-	max-width: 100px;
+	max-width: 80px;
+	text-align: center;
+}
+
+.tag {
+	color: whitesmoke;
+	font-family: monospace;
+	padding: 2px;
+	margin: 1px;
+	border-radius: 7px;
 }
 
 .btn-see-more {
-	background-color: #db4141;
-	color: whitesmoke;
-	border-radius: 10px;
-	cursor: pointer;
+	color: #252525;
+	cursor:pointer;
 }
 
+.btn-see-more:hover {
+	background-color: #c52334;
+	color: white;
+}
 
-/*
-	Filter
+/* Filter
 */
 #grid-filter {
 	margin-top: 25px;
@@ -74,7 +131,7 @@ td {
 	height: 25px;
 	font-weight: 600;
 
-	background-color: #dddddd;
+	background-color: #cccccc;
 	padding: 5px;
 }
 
@@ -108,9 +165,7 @@ td {
 }
 
 
-/*
-	Modal
-
+/* Modal 
 */
 .modal {
 	display: none; /* Hidden by default */
@@ -138,7 +193,7 @@ td {
 .close {
 	color: #aaa;
 	float: right;
-	font-size: 28px;
+	font-size: 38px;
 	font-weight: bold;
 }
 
@@ -148,3 +203,4 @@ td {
 	text-decoration: none;
 	cursor: pointer;
 }
+

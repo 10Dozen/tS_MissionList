@@ -13,12 +13,10 @@ import java.nio.file.StandardOpenOption;
 
 public class MissionInfoExporter {
     private final StringBuilder nodeBuilder = new StringBuilder();
-
-    public void export(String exportPath, MissionData missionData, BriefingData briefingData, boolean append) throws IOException {
-        StringBuilder jsonBuilder = formatExportData(missionData, briefingData);
-
-        writeFoTile(exportPath, jsonBuilder, append);
-    }
+    private final String dataFilePre = "var missionsInfo = [\n";
+    private final String dataFilePost = "\n];";
+    private int written = 0;
+    private boolean isWritingDataFile = false;
 
     private enum ExportFields {
         FILENAME("filename")
@@ -41,55 +39,68 @@ public class MissionInfoExporter {
         }
     }
 
+    public void export(String exportPath, MissionData missionData, BriefingData briefingData,
+                       boolean append) throws IOException {
+        StringBuilder jsonBuilder = formatExportData(missionData, briefingData);
+
+        writeFoTile(exportPath, jsonBuilder, append, false);
+        written++;
+    }
+
+    public void initDataFile(String exportPath) throws IOException {
+        isWritingDataFile = true;
+        StringBuilder sb = new StringBuilder(dataFilePre);
+        writeFoTile(exportPath, sb, false, true);
+        written++;
+    }
+
+    public void finishDataFile(String exportPath) throws IOException {
+        StringBuilder sb = new StringBuilder(dataFilePost);
+        writeFoTile(exportPath, sb, true, true);
+        written++;
+    }
+
     private StringBuilder formatExportData(MissionData mission, BriefingData briefing) {
         StringBuilder jsonFormatted = new StringBuilder();
         jsonFormatted.append("{")
                 .append(formatNonStringNode(ExportFields.ID.getName(), generateHash(mission.getFilename())))
-                .append(formatNode(ExportFields.FILENAME.getName(), mission.getFilename()))
-                .append(formatNode(ExportFields.TITLE.getName(), mission.getTitle()))
+                .append(formatStringNode(ExportFields.FILENAME.getName(), mission.getFilename()))
+                .append(formatStringNode(ExportFields.TITLE.getName(), mission.getTitle()))
                 .append(formatNonStringNode(ExportFields.SLOTS.getName(), mission.getSlots()))
-                .append(formatNode(ExportFields.TERRAIN.getName(), mission.getTerrain()))
-                .append(formatNonStringNode(ExportFields.TAGS.getName(), "[]"))
-                .append(formatNode(ExportFields.OVERVIEW.getName(), mission.getOverview()))
-                .append(formatNode(ExportFields.BRIEFING.getName(), briefing.getText()))
-                .append(formatNode(ExportFields.MAPSHOT.getName(), "", true))
-                .append("}");
+                .append(formatStringNode(ExportFields.TERRAIN.getName(), mission.getTerrain()))
+                .append(formatStringNode(ExportFields.TAGS.getName(), "[]"))
+                .append(formatStringNode(ExportFields.OVERVIEW.getName(), mission.getOverview()))
+                .append(formatStringNode(ExportFields.BRIEFING.getName(), briefing.getText()))
+                .append(formatNode(ExportFields.MAPSHOT.getName(), "", true, true))
+                .append("\n}");
 
         return jsonFormatted;
     }
 
-    private String formatNode(String key, String value) {
-        return formatNode(key, value, false);
-    }
-
-    private String formatNode(String key, String value, boolean isLast) {
+    private String formatNode(String key, String value, boolean quoted, boolean isLast) {
         nodeBuilder.setLength(0);
 
-        nodeBuilder.append(key)
-                .append(": \"")
-                .append(value)
-                .append("\"");
+        nodeBuilder.append("\n\t").append(key).append(": ");
+
+        if (quoted) {
+            nodeBuilder.append("\"").append(value).append("\"");
+        } else {
+            nodeBuilder.append(value);
+        }
 
         if (!isLast) {
             nodeBuilder.append(",");
         }
 
         return nodeBuilder.toString();
+    }
+
+    private String formatStringNode(String key, String value) {
+        return formatNode(key, value, true, false);
     }
 
     private String formatNonStringNode(String key, String value) {
-        return formatNonStringNode(key, value, false);
-    }
-
-    private String formatNonStringNode(String key, String value, boolean isLast) {
-        nodeBuilder.setLength(0);
-        nodeBuilder.append(key).append(": ").append(value);
-
-        if (!isLast) {
-            nodeBuilder.append(",");
-        }
-
-        return nodeBuilder.toString();
+        return formatNode(key, value, false,false);
     }
 
     private String generateHash(String value) {
@@ -101,7 +112,8 @@ public class MissionInfoExporter {
         return "" + Math.abs(hash);
     }
 
-    private void writeFoTile(String exportPath, StringBuilder missionInfo, boolean append) throws IOException {
+    private void writeFoTile(String exportPath, StringBuilder missionInfo,
+                             boolean append, boolean skipComma) throws IOException {
         StandardOpenOption option = StandardOpenOption.CREATE;
         Path outputFile = Paths.get(exportPath);
         boolean addLeadingComma = false;
@@ -109,7 +121,16 @@ public class MissionInfoExporter {
         if (Files.exists(outputFile)) {
             if (append) {
                 option = StandardOpenOption.APPEND;
-                addLeadingComma = true;
+
+                if (skipComma) {
+                    addLeadingComma = false;
+                } else {
+                    if (isWritingDataFile && written < 2) {
+                        addLeadingComma = false;
+                    } else {
+                        addLeadingComma = true;
+                    }
+                }
             } else {
                 Files.deleteIfExists(outputFile);
             }
@@ -121,7 +142,7 @@ public class MissionInfoExporter {
         ) {
 
             if (addLeadingComma) {
-                writer.write(", ");
+                writer.write("\n,");
             }
             writer.write(missionInfo.toString());
         }

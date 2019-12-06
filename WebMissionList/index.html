@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="us">
 	<head>
-		<title>tS Mission List</title>
+		<meta charset="utf-8"/>
+
+		<title>tS Mission List</title>		
 		
 		<link rel="stylesheet" href="src/style.css">
 		<script src="https://code.jquery.com/jquery-3.4.1.min.js"
@@ -13,59 +15,65 @@
 		<div id="popup" class="modal">
 			<div class="modal-content">
 				<span class="close">&times;</span>
-				<h1>CO16 Wastelands (1B)</h1>
-				<p class="modal-terrain">at ProvingGrounds_PMC</p>
-				<img width="256px" src="https://img.rule34.xxx//images/3123/9f6b32d7f01af8a3558cfaed8ff96e4f.jpeg?3506572" />
-				<p class="modal-briefing">14 марта 2012 года. Республика Такистан.<br /><br />Активность инсургентов резко возросла за последние месяцы, после открытых заявлений правительства США о введении санкций против Такистана.<br /><br />В связи с этим армия возобновляет патрулирования удаленных районов страны, чтобы пресечь попытки поставок оружия и наемников из пограничных областей
-					<br /><br />А. Враждебные силы:<br />Маловероятно - инсургенты (племена роялистов), численностью до взвода.
-					<br /><br />Б. Дружественные силы:<br />2х моторизированные отделения Армии Такистана"
-					<br/><br/>II. Задание:<br/>- Пройти по контрольным точкам КТ 1, КТ 2, КТ 3.<br />- В случае обнаружения инсургентов - сообщить штабу, при возможности - уничтожить.
-					<br/><br/>IV. Поддержка:<br />2х Land Rover (M2HB)<br />2x Land Rover</p>
+				<h1>Example mission</h1>
+				<p class="modal-terrain">at Example terrain</p>
+				<p class="modal-tags"></p>
+				<img width="256px" src="" />
+				<p class="modal-briefing">Example text</p>
+			</div>
+		</div>
+	
+		<div id="header">
+			<div id="header-title">
+				<span>tS</span> <tt id='header-sans'>Доступные операции</tt>
 			</div>
 		</div>
 
-		<div max-width="512px">
-			<table id="grid-filter">
-				<tr>
-					<th class="clickable" colspan="2">Filters</th>
-				</tr>
-				<tr class="filter-line">
-					<td>By mission name</td>
-					<td filter-type="title" class="td-filter-inputs"><input type="text" /></td>
-				</tr>
-				<tr class="filter-line">
-					<td>By terrain name</td>
-					<td filter-type="terrain" class="td-filter-inputs">
-						<select></select>
-					</td>
-				</tr>
-				<tr class="filter-line">
-					<td>By slots, &gt;=</td>
-					<td filter-type="slots-gte" class="td-filter-inputs"><input type="number" /></td>
-				</tr>
-				<tr class="filter-line">
-					<td>By slots, &lt;= </td>
-					<td filter-type="slots-lte" class="td-filter-inputs"><input type="number" /></td>
-				</tr>
-				<tr style="text-align: right" class="filter-line">
-					<td colspan="2" >
-						<button id="btn-reset-filter">Reset</button>
-						<button id="btn-filter">Filter</button>
-					</td>
-				</tr>
-			</table>
-		</div>
-		<div>
-			<table id="grid">
-				<tr>
-					<th class="th-w clickable" column_name="title" sortable="true">Name</th>
-					<th class="th-n clickable" column_name="player_count" sortable="true">Slots</th>
-					<th class="th-n clickable" column_name="terrain" sortable="true">Terrain</th>
-					<th class="clickable" column_name="overview" sortable="true">Overview</th>
-					<th class="th-a" column_name="tags" sortable="false">Tags</th>
-					<th class="th-a" column_name="briefing" sortable="false">Briefing</th>
-				</tr>
-			</table>
+		<div id="wrapper">
+			<div max-width="512px">
+				<table id="grid-filter">
+					<tr>
+						<th class="clickable" colspan="2">Filters</th>
+					</tr>
+					<tr class="filter-line">
+						<td>By mission name</td>
+						<td filter-type="title" class="td-filter-inputs"><input type="text" /></td>
+					</tr>
+					<tr class="filter-line">
+						<td>By terrain name</td>
+						<td filter-type="terrain" class="td-filter-inputs">
+							<select></select>
+						</td>
+					</tr>
+					<tr class="filter-line">
+						<td>By slots, &gt;=</td>
+						<td filter-type="slots-gte" class="td-filter-inputs"><input type="number" /></td>
+					</tr>
+					<tr class="filter-line">
+						<td>By slots, &lt;= </td>
+						<td filter-type="slots-lte" class="td-filter-inputs"><input type="number" /></td>
+					</tr>
+					<tr style="text-align: right" class="filter-line">
+						<td colspan="2" >
+							<button id="btn-reset-filter">Reset</button>
+							<button id="btn-filter">Filter</button>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div>
+				<table id="grid">
+					<tr>
+						<th class="th-w clickable" column_name="title" sortable="true">Name</th>
+						<th class="th-n clickable" column_name="player_count" sortable="true">Slots</th>
+						<th class="th-n clickable" column_name="terrain" sortable="true">Terrain</th>
+						<th class="clickable" column_name="overview" sortable="true">Overview</th>
+						<th class="th-a" column_name="tags" sortable="false">Tags</th>
+						<th class="th-a" column_name="briefing" sortable="false">Briefing</th>
+					</tr>
+				</table>
+			</div>
+
 		</div>
 
 	</body>

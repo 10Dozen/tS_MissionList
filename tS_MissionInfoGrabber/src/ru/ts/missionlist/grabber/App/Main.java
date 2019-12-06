@@ -13,6 +13,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import ru.ts.missionlist.grabber.logic.MissionInfoGrabber;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
@@ -25,9 +26,7 @@ public class Main extends Application {
     private static final int WIDTH = 500;
     private static final int HEIGHT = 475;
 
-    // private static final String DEFAULT_FOLDER = new JFileChooser().getFileSystemView().getDefaultDirectory().toString();
-    private static final String DEFAULT_FOLDER = "C:\\Users\\Zodius\\Documents\\Arma 3 - Other Profiles\\10Dozen\\mpmissions";
-
+    private static final String DEFAULT_FOLDER = new JFileChooser().getFileSystemView().getDefaultDirectory().toString();
     private static final String DEFAULT_OUTPUT_FILENAME = "MissionInfo.txt";
 
     private static final String APPNAME = "tS Mission Info Grabber";
@@ -38,6 +37,7 @@ public class Main extends Application {
     private static final String OUTPUT_FILENAME_PROMT_TEXT = "Output filename";
     private static final String APPLY_BTN = "Grab!";
     private static final String OVERWRITE_CHBX = "Overwrite output file";
+    private static final String WRITE_DATAFILE_CHBX = "Write as datafile";
 
     private static final String STATUS_TEXT = "Status: %s";
     private static final String STATUS_ERR_TEXT = "Status: Error! %s";
@@ -77,6 +77,8 @@ public class Main extends Application {
         FlowPane group2 = new FlowPane(outputFileLabel, outputFileField);
 
         CheckBox overwriteChbx = new CheckBox(OVERWRITE_CHBX);
+        CheckBox asDataFileChbx = new CheckBox(WRITE_DATAFILE_CHBX);
+        asDataFileChbx.setDisable(true);
 
         // Do/Reset Buttons // ---------------------
         Button applyBtn = new Button(APPLY_BTN);
@@ -94,7 +96,7 @@ public class Main extends Application {
         pane.setVgap(8);
         pane.setHgap(15);
         pane.setOrientation(Orientation.VERTICAL);
-        pane.getChildren().addAll(folderLbl, group1, groupListView, group2, overwriteChbx, group3, statusLbl);
+        pane.getChildren().addAll(folderLbl, group1, groupListView, group2, overwriteChbx, asDataFileChbx, group3, statusLbl);
 
         // --------------------
         // Events
@@ -124,6 +126,16 @@ public class Main extends Application {
                 updateListView(listView, selectedDirectory);
             }
         });
+        overwriteChbx.setOnAction(event -> {
+            if (overwriteChbx.isSelected()) {
+                asDataFileChbx.setDisable(false);
+            } else {
+                if (asDataFileChbx.isSelected()) {
+                    asDataFileChbx.setSelected(false); // Disable as Data file when not overwriting
+                }
+                asDataFileChbx.setDisable(true);
+            }
+        });
         applyBtn.setOnAction(event -> {
             long start = System.currentTimeMillis();
             long timeSpent = -1;
@@ -138,9 +150,10 @@ public class Main extends Application {
                 ObservableList subdirectories = listView.getSelectionModel().getSelectedItems();
                 String exportPath = outputFileField.getText();
                 boolean doAppend = !overwriteChbx.isSelected();
+                boolean asDataFile = asDataFileChbx.isSelected();
 
                 MissionInfoGrabber grabber = new MissionInfoGrabber();
-                grabber.grab(rootDirectory, subdirectories, exportPath, doAppend);
+                grabber.grab(rootDirectory, subdirectories, exportPath, doAppend, asDataFile);
 
                 completed = true;
                 timeSpent = System.currentTimeMillis() - start;
