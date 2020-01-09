@@ -1,0 +1,72 @@
+// Default mission info
+	author=lim;
+	overviewPicture = mgsv.paa;
+	overviewText = "CO22 MGSV: The Pits of Hell";
+	OnLoadName = "CO22 MGSV: The Pits of Hell";
+	loadScreen = mgsv.paa;
+	OnLoadMission = "MGSV: The Pits of Hell";
+	onLoadMissionTime = 1;
+	onLoadIntroTime = 1;
+
+//Mission header
+	class Header
+		{
+			gameType = Coop; // Game type, see 'class' columns in the table below
+			minPlayers = 1; //min # of players the mission supports
+			maxPlayers = 22; //max # of players the mission supports
+		};
+
+// 10Dozen magic
+	#include "dzn_commonFunctions\dzn_commonFunctions.hpp"
+	enableDebugConsole = 1;
+	disabledAI = 1;
+
+// Endings
+// Endings
+	class CfgDebriefing
+		{  
+			class win1
+				{
+					title = "Задание выполнено";
+					subtitle = "Big Boss is proud of you";
+					description = "Все заложники спасены, возможно, вам разрешат подсмотреть за Quiet, когда она моется";
+				};
+			class win2
+				{
+					title = "Задание выполнено";
+					subtitle = "Это день радости со слезами на глазах";
+					description = "Вы сделали все что было в ваших силах, но не всех заложников удалось спасти";
+				};
+			
+			class fail
+				{
+					title = "ПОТРАЧЕНО";
+					subtitle = "Вы вообще помните что там были заложники?";
+					description = "Тут должен был быть комментарий, но его просто нет";
+				};
+			class Lose
+				{
+					title = "Задание провалено";
+					subtitle = "Все погибли";
+					description = "Возвращение в Outer Heaven в цинковых гробах";
+				};
+		};
+
+// Mission parameters
+	class Params
+		{    
+			class TimeOfDay 
+				{
+					title = "Время суток";
+					values[] = {07,18,03};
+					default = 18;
+					texts[] = {"День","Вечер","Ночь"};
+				};
+			class dzn_brv_enabled
+				{
+					title = "tS AAR Logging";
+					values[] = {0,1};
+					texts[] = {"Disabled","Enabled"};
+					default = 0;
+				};
+		};

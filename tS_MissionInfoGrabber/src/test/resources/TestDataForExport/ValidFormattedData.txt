@@ -1,0 +1,11 @@
+{
+	id: 1231157496,
+	filename: "valid_filename.terrain",
+	title: "Valid Mission Title",
+	player_count: 69,
+	terrain: "Terrain",
+	tags: ["SPECOPS","INFANTRY"],
+	overview: "Valid overview",
+	briefing: "Some valid briefing text here<br /><br />All is valid. 'Quotes' too!",
+	map_shot: ""
+}
