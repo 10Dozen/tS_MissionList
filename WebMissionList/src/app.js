@@ -4,10 +4,14 @@ var TagsMarkdown = {
 	"INFANTRY": {		bg: "#ba2b2b", text: "whitesmoke" },
 	"COMB.ARMS": {		bg: "#596816", text: "whitesmoke" },
 	"JTAC/CAS": { 		bg: "#6aa29e", text: "whitesmoke" },
-	"ARMOR": { 			bg: "#986f2a", text: "whitesmoke" },
-	"RolePlay":  { 		bg: "#ae33ff", text: "whitesmoke" },
+	"ARMOR": { 			bg: "#6e8fa6", text: "whitesmoke" },
+	"AIRBORNE": {		bg: "#2a6c98", text: "whitesmoke" },
+	"MOUT": { 			bg: "#aaaaaa", text: "#333333" },
+	"RolePlay":  { 		bg: "#59ae42", text: "whitesmoke" },
+	"FIX NEEDED": {			bg: "#dddd11", text: "#333333" },
 	"default": { 		bg: "#8374aa", text: "whitesmoke" }
 };
+
 
 var GridModelClass = function (data) {
 	this.data = [...data];
@@ -143,13 +147,23 @@ var GridModelClass = function (data) {
 	this.refreshMissionDetails = function(id) {
 		if (id < 0) {
 			this.view.modal_hidePopup();
+			this.updateURL("");
 			return;
 		}
 
 		let mData = this.data.find(e => e.id == id);
 		this.view.modal_showPopup(mData);
+		this.updateURL(mData.id);
 	};
 
+	this.updateURL = function (guid) {
+		let url = window.location.protocol + "//" + window.location.host + window.location.pathname;
+		if (guid != "") {
+			url = url + '?guid=' + encodeURI(guid);
+		}
+		window.history.pushState({ path: url }, '', url);
+	};
+	
 	/* Iterator */
 	this.itrPosition = 0;
 
@@ -225,9 +239,11 @@ var GridViewClass = function () {
 		while (model.hasNext()) {
 			let info = model.next();
 			let tags = this.tags_prepareTags(info.tags);
+			
+			let title = (info.title == "null") ? info.filename : info.title;
 
 			$(this.$grid).append(`<tr class="grid-line" mission-id="${info.id}">`
-				+ `<td>${info.title}</td>`
+				+ `<td>${title}</td>`
 				+ `<td class="td-center">${info.player_count}</td>`
 				+ `<td>${info.terrain}</td>`
 				+ `<td class="td-overview">${info.overview}</td>`
@@ -273,8 +289,11 @@ var GridViewClass = function () {
 	}
 
 	this.modal_showPopup = function (data) {
-		$(`${this.$popup} h1`).text(data.title);
-		$(`${this.$popup} p[class='modal-terrain']`).text("at " + data.terrain);
+		let title = (data.title == "null") ? data.filename : data.title;
+		
+		$(`${this.$popup} h1`).text(title);
+		$(`${this.$popup} p[class='modal-terrain']`).text("at " + data.terrain + " | " + data.player_count + " slots");
+		$(`${this.$popup} span[class='modal-guid']`).text("[GUID:" + data.id + "][Filename:" + data.filename + "]");
 		$(`${this.$popup} p[class='modal-tags']`).html(this.tags_prepareTags(data.tags));
 		$(`${this.$popup} img`).attr("src", data.map_shot);
 		$(`${this.$popup} p[class='modal-briefing']`).html(data.briefing);
@@ -293,7 +312,7 @@ var GridViewClass = function () {
 			if (tagData == null) {
 				tagData = TagsMarkdown.default;
 			}
-			tagHtml = tagHtml.concat(`<span class="tag" style="background-color: ${tagData.bg}; color: ${tagData.text}">${tag}</span>`);
+			tagHtml = tagHtml.concat(`<p class="tag" style="background-color: ${tagData.bg}; color: ${tagData.text}">${tag}</p>`);
 		});
 
 		return tagHtml;
@@ -404,4 +423,10 @@ $( document ).ready(function () {
 
 	/* Init */
 	GridApp.model.refreshView();
+	
+	const urlParams = new URLSearchParams(window.location.search);
+	if (urlParams.has('guid')) {
+		let guid = urlParams.get('guid');
+		GridApp.model.refreshMissionDetails(guid);
+	}
 })
