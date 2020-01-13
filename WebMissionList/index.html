@@ -22,6 +22,7 @@
 				<p class="modal-tags"></p>
 				<img width="256px" src="" />
 				<p class="modal-briefing">Example text</p>
+				<span class="close">&times;</span>
 			</div>
 		</div>
 	
@@ -55,10 +56,15 @@
 						<td>By slots, &lt;= </td>
 						<td filter-type="slots-lte" class="td-filter-inputs"><input type="number" /></td>
 					</tr>
+					<tr class="filter-line">
+						<td>By tags</td>
+						<td filter-type="tags" class="td-filter-inputs"></td>
+					</tr>
 					<tr style="text-align: right" class="filter-line">
 						<td colspan="2" >
-							<button id="btn-reset-filter">Reset</button>
-							<button id="btn-filter">Filter</button>
+							<button id="btn-filter-url" class="btn-filter" title="Copy URL">Copy</button>
+							<button id="btn-reset-filter" class="btn-filter">Reset</button>
+							<button id="btn-filter" class="btn-filter btn-filter-100">Filter</button>
 						</td>
 					</tr>
 				</table>

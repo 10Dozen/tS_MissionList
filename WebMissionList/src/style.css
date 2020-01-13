@@ -141,7 +141,6 @@ td {
 	background-color: #e22a42 !important;
 }
 
-
 .filter-line {
 }
 
@@ -154,15 +153,23 @@ td {
 	width: 173px;
 }
 
-#btn-reset-filter {
+.td-filter-tag {
+	display: inline-block;	
+}
+
+.td-inactive-tag {
+	color: #333!important;
+	background-color: #cbcbcb!important;
+}
+
+.btn-filter {
 	height: 30px;
 	cursor: pointer;
 }
 
-#btn-filter {
-	height: 30px;
+.btn-filter-100 {
+	
 	width: 100px;
-	cursor: pointer;
 }
 
 
@@ -199,8 +206,12 @@ td {
 .close {
 	color: #aaa;
 	float: right;
-	font-size: 38px;
+	font-size: 75px;
 	font-weight: bold;
+	
+	position: fixed;
+	top: 200px;
+	right: 150px;
 }
 
 .close:hover,
