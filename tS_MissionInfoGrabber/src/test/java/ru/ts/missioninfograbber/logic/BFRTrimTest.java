@@ -25,7 +25,7 @@ public class BFRTrimTest {
                 ,{"\"Элитные силы Outer Heaven,", "Элитные силы Outer Heaven,"}
                 ,{"\"Освободить захваченных горных инженеров и сопроводить их к \"\"Insertion Point\"\"\"","Освободить захваченных горных инженеров и сопроводить их к 'Insertion Point'"}
                 ,{"<br />Second line with \" + _sqfVar + \" inside","<br />Second line with \\\" + _sqfVar + \\\" inside"}
-                ,{"\"<br />Quoted line with \" + _sqfVar + \" inside\"","<br />Second line with \\\" + _sqfVar + \\\" inside"}
+                ,{"\"<br />Quoted line with \" + _sqfVar + \" inside\"","<br />Quoted line with \\\" + _sqfVar + \\\" inside"}
         });
     }
 

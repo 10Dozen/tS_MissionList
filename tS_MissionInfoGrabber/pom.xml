@@ -7,6 +7,7 @@
     <groupId>ru.ts</groupId>
     <artifactId>missionlistgrabber</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
 
     <properties>
         <java-version>1.8</java-version>
@@ -21,9 +22,10 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <groupId>org.apache.maven.surefire</groupId>
+            <artifactId>surefire-junit</artifactId>
+            <version>2.6</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <build>
@@ -39,13 +41,20 @@
                         <encoding>UTF-8</encoding>
                     </configuration>
                 </plugin>
-                <!--
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>3.0.0-M4</version>
                 </plugin>
-                -->
+
+                <plugin>
+                    <groupId>com.zenjava</groupId>
+                    <artifactId>javafx-maven-plugin</artifactId>
+                    <version>8.8.3</version>
+                    <configuration>
+                        <mainClass>ru.ts.missioninfograbber.App.Main</mainClass>
+                    </configuration>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>
