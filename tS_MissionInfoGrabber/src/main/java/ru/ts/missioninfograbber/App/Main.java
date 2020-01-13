@@ -30,7 +30,7 @@ public class Main extends Application {
     private static final String DEFAULT_OUTPUT_FILENAME = "MissionInfo.txt";
 
     private static final String APPNAME = "tS Mission Info Grabber";
-    private static final String VERSION = "v0.1";
+    private static final String VERSION = "v0.2";
     private static final String BROWSE_BTN = "Browse";
     private static final String BROWSE_LBL = "Select mission folder:";
     private static final String BROWSE_DIRECTORY_TEXT = "Browse folder...";

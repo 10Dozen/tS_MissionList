@@ -43,7 +43,7 @@ public class BriefingFileReader {
                 if (line.startsWith(topicEndTag)) {
                     topicStarted = false;
                 } else {
-                    String trimmedLine = trimQuotesFromLine(line);
+                    String trimmedLine = escapeQuotesFromLine(line);
                     textBuffer.append(trimmedLine);
                 }
             } else {
@@ -72,7 +72,7 @@ public class BriefingFileReader {
         return "[]";
     }
 
-    protected String trimQuotesFromLine(String line) {
+    protected String escapeQuotesFromLine(String line) {
         // Trim lines from leading and tailing quotes
         line = line.replaceAll("\"\"", "'");
         String trimmedLine = null;
@@ -89,6 +89,7 @@ public class BriefingFileReader {
             trimmedLine = line;
         }
 
+        trimmedLine = trimmedLine.replaceAll("\"", "\\\\\"");
         return trimmedLine;
     }
 }
