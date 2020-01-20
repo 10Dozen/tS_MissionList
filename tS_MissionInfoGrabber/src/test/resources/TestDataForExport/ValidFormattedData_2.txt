@@ -1,0 +1,11 @@
+{
+	id: 1231157496,
+	filename: "valid_filename.terrain",
+	title: "valid_filename.terrain",
+	player_count: 0,
+	terrain: "Terrain",
+	tags: [],
+	overview: "",
+	briefing: "&lt;no data&gt;",
+	map_shot: ""
+}
