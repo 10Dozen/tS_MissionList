@@ -9,6 +9,7 @@ import org.junit.runners.Suite;
         MissionFileReaderTestSuite.class
         , BriefingFileReaderTestSuite.class
         , MissionInfoExportTestSuite.class
+        , OverviewPictureGrabberTestSuite.class
 })
 
 public class CompleteTest {

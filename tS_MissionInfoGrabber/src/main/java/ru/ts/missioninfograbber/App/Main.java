@@ -7,6 +7,7 @@ import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Color;
 import javafx.stage.DirectoryChooser;
@@ -30,7 +31,7 @@ public class Main extends Application {
     private static final String DEFAULT_OUTPUT_FILENAME = "MissionInfo.txt";
 
     private static final String APPNAME = "tS Mission Info Grabber";
-    private static final String VERSION = "v0.2";
+    private static final String VERSION = "v0.3";
     private static final String BROWSE_BTN = "Browse";
     private static final String BROWSE_LBL = "Select mission folder:";
     private static final String BROWSE_DIRECTORY_TEXT = "Browse folder...";
@@ -126,6 +127,15 @@ public class Main extends Application {
                 updateListView(listView, selectedDirectory);
             }
         });
+        folderField.setOnKeyReleased(event -> {
+            if (!event.getCode().equals(KeyCode.ENTER)) { return; }
+            if (folderField.getText().isEmpty()) { return; }
+
+            Path path = Paths.get(folderField.getText());
+            if (!Files.isDirectory(path)) { return; }
+
+            updateListView(listView, path.toFile());
+        });
         overwriteChbx.setOnAction(event -> {
             if (overwriteChbx.isSelected()) {
                 asDataFileChbx.setDisable(false);
@@ -143,6 +153,7 @@ public class Main extends Application {
             statusLbl.setTextFill(Color.OLIVEDRAB);
 
             boolean completed = false;
+            boolean isSingleMission = pane.isDisable();
             pane.setDisable(true);
 
             try {
@@ -176,7 +187,7 @@ public class Main extends Application {
                 statusLbl.setTextFill(Color.OLIVEDRAB);
                 folderLbl.setTextFill(Color.BLACK);
             }
-            pane.setDisable(false);
+            pane.setDisable(isSingleMission);
         });
 
         // --------------------
@@ -191,15 +202,24 @@ public class Main extends Application {
     }
 
     private void updateListView(ListView view, File path) {
-        String[] directories = path.list(new FilenameFilter() {
-            @Override
-            public boolean accept(File item, String name) {
-                return new File(item, name).isDirectory();
-            }
-        });
-
         view.getItems().clear();
-        view.getItems().addAll(directories);
+
+        File missionFile = new File(path.getAbsolutePath(), "mission.sqm");
+        if (missionFile.exists()) {
+            // -- Single mission folder is selected
+            view.getItems().addAll(new String[] { path.getName() });
+            view.setDisable(true);
+        } else {
+            // -- Folder with multiple missions is selected
+            String[] directories = path.list(new FilenameFilter() {
+                @Override
+                public boolean accept(File item, String name) {
+                    return new File(item, name).isDirectory();
+                }
+            });
+            view.getItems().addAll(directories);
+            view.setDisable(false);
+        }
         view.refresh();
     }
 

@@ -35,14 +35,14 @@ public class MIEDataFormatterTest {
         data.add(new Object[] {
            "TestDataForExport"
            ,"ValidFormattedData.txt"
-           , new MissionData("Valid Mission Title", "Valid overview", "valid_filename.terrain","Terrain", "69")
+           , new MissionData("Valid Mission Title", "Valid overview","valid_filename.terrain", "Terrain", "69")
            , new BriefingData("Some valid briefing text here<br /><br />All is valid. 'Quotes' too!", "[\"SPECOPS\",\"INFANTRY\"]")
         });
 
         data.add(new Object[] {
             "TestDataForExport"
             ,"ValidFormattedData_2.txt"
-            , new MissionData("valid_filename.terrain", "", "valid_filename.terrain","Terrain", "")
+            , new MissionData("valid_filename.terrain", "","valid_filename.terrain", "Terrain", "")
             , new BriefingData()
         });
 
@@ -59,7 +59,7 @@ public class MIEDataFormatterTest {
 
     @Test
     public void formatData() throws IOException {
-        StringBuilder sb = MIE.formatExportData(missionData, briefingData);
+        StringBuilder sb = MIE.formatExportData(missionData, briefingData, "");
         String actualData = sb.toString();
 
         if (noisyOutput) {

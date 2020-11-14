@@ -37,44 +37,40 @@ public class MFRReadTest {
                 "CO16-Wastelands-1B.ProvingGrounds_PMC"
                 , new MissionData(
                     "CO16 Wastelands (1B)"
-                    , "Takistan Army patrols wastelands"
-                    , "CO16-Wastelands-1B.ProvingGrounds_PMC"
-                    , "ProvingGrounds_PMC"
-                    , "16"
-                )
+                    ,"Takistan Army patrols wastelands"
+                    ,"CO16-Wastelands-1B.ProvingGrounds_PMC"
+                    ,"ProvingGrounds_PMC"
+                    ,"16")
             }
             , {
                 /* mission.sqm dosen't contain any data */
                 "CO18_MGSV_42.ProvingGrounds_PMC"
                 , new MissionData(
                     "CO18_MGSV_42"
-                    , ""
-                    , "CO18_MGSV_42.ProvingGrounds_PMC"
-                    , "ProvingGrounds_PMC"
-                    , "18"
-                )
+                    ,""
+                    ,"CO18_MGSV_42.ProvingGrounds_PMC"
+                    ,"ProvingGrounds_PMC"
+                    ,"18")
             }
             , {
                 /* mission.sqm contains some data */
                 "co21-succesive-patrol-1b.Kunduz"
                 , new MissionData(
                     "CO21 Successive Patrol (1B)"
-                    , ""
-                    , "co21-succesive-patrol-1b.Kunduz"
-                    , "Kunduz"
-                    , "21"
-                )
+                    ,""
+                    ,"co21-succesive-patrol-1b.Kunduz"
+                    ,"Kunduz"
+                    ,"21")
             }
             , {
                 /* mission.sqm contains some data */
                 "co21-succesive-patrol-1c.Kunduz"
                 , new MissionData(
                     "co21-succesive-patrol-1c"
-                    , "Patrol operation of US Army troops"
-                    , "co21-succesive-patrol-1c.Kunduz"
-                    , "Kunduz"
-                    , "26"
-                )
+                    ,"Patrol operation of US Army troops"
+                    ,"co21-succesive-patrol-1c.Kunduz"
+                    ,"Kunduz"
+                    ,"26")
             }
         };
 

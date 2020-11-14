@@ -62,8 +62,7 @@ public class MissionFileReader {
                 , details.getOrDefault(Details.OVERVIEW, "")
                 , filename
                 , missionFileData[2]
-                , slotCount
-        );
+                , slotCount);
     }
 
     protected String[] parseMissionFilename(String filename) {

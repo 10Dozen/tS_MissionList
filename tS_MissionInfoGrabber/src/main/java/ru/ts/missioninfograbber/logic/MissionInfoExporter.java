@@ -24,6 +24,7 @@ public class MissionInfoExporter {
         , SLOTS("player_count")
         , TERRAIN("terrain")
         , OVERVIEW("overview")
+        , OVERVIEW_IMAGE("overview_img")
         , BRIEFING("briefing")
         , ID("id")
         , MAPSHOT("map_shot")
@@ -39,9 +40,9 @@ public class MissionInfoExporter {
         }
     }
 
-    public void export(String exportPath, MissionData missionData, BriefingData briefingData,
+    public void export(String exportPath, MissionData missionData, BriefingData briefingData, String overviewImageInfo,
                        boolean append) throws IOException {
-        StringBuilder jsonBuilder = formatExportData(missionData, briefingData);
+        StringBuilder jsonBuilder = formatExportData(missionData, briefingData, overviewImageInfo);
 
         writeFoTile(exportPath, jsonBuilder, append, false);
         written++;
@@ -60,7 +61,7 @@ public class MissionInfoExporter {
         written++;
     }
 
-    StringBuilder formatExportData(MissionData mission, BriefingData briefing) {
+    StringBuilder formatExportData(MissionData mission, BriefingData briefing, String overviewImageInfo) {
         StringBuilder jsonFormatted = new StringBuilder();
         jsonFormatted.append("{")
                 .append(formatNonStringNode(ExportFields.ID.getName(), generateHash(mission.getFilename())))
@@ -70,6 +71,7 @@ public class MissionInfoExporter {
                 .append(formatStringNode(ExportFields.TERRAIN.getName(), mission.getTerrain()))
                 .append(formatNonStringNode(ExportFields.TAGS.getName(), briefing.getTags()))
                 .append(formatStringNode(ExportFields.OVERVIEW.getName(), mission.getOverview()))
+                .append(formatStringNode(ExportFields.OVERVIEW_IMAGE.getName(), overviewImageInfo.replace('\\','/')))
                 .append(formatStringNode(ExportFields.BRIEFING.getName(), briefing.getText()))
                 .append(formatNode(ExportFields.MAPSHOT.getName(), "", true, true))
                 .append("\n}");

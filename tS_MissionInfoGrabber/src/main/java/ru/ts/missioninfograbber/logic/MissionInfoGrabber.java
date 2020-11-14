@@ -14,6 +14,7 @@ public class MissionInfoGrabber {
     private MissionFileReader missionReader = new MissionFileReader();
     private BriefingFileReader briefingReader = new BriefingFileReader();
     private MissionInfoExporter exporter = new MissionInfoExporter();
+    private OverviewPictureGrabber overviewGrabber = new OverviewPictureGrabber();
 
     public void grab(String rootDirectory, ObservableList pathlist, String exportPath,
                      boolean append, boolean asDataFile) throws IOException {
@@ -23,16 +24,21 @@ public class MissionInfoGrabber {
             append = true;
         }
 
-        // --- Bulk export of mission info
-        for (Object directory : pathlist) {
-            if (directory instanceof String) {
-                Path missionPath = Paths.get(rootDirectory, (String) directory);
+        if (pathlist.isEmpty()) {
+            // --- Single mission export
+            grabMissionInfo(rootDirectory, exportPath, append);
+        } else {
+            // --- Bulk export of mission info
+            for (Object directory : pathlist) {
+                if (directory instanceof String) {
+                    Path missionPath = Paths.get(rootDirectory, (String) directory);
 
-                if (Files.exists(missionPath)) {
-                    grabMissionInfo(missionPath.toString(), exportPath, append);
+                    if (Files.exists(missionPath)) {
+                        grabMissionInfo(missionPath.toString(), exportPath, append);
 
-                    if (!append) { // -- Turns off overwrite after first item processed all next items should be appended
-                        append = true;
+                        if (!append) { // -- Turns off overwrite after first item processed all next items should be appended
+                            append = true;
+                        }
                     }
                 }
             }
@@ -47,6 +53,8 @@ public class MissionInfoGrabber {
         MissionData missionData = missionReader.read(path);
         BriefingData briefingData = briefingReader.read(path);
 
-        exporter.export(exportPath, missionData, briefingData, append);
+        String overviewImageData = overviewGrabber.getOverviewImage(path, Paths.get(exportPath).toAbsolutePath().getParent().toString());
+
+        exporter.export(exportPath, missionData, briefingData, overviewImageData, append);
     }
 }

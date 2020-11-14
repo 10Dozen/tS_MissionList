@@ -6,6 +6,7 @@
 	terrain: "Terrain",
 	tags: ["SPECOPS","INFANTRY"],
 	overview: "Valid overview",
+	overview_img: "",
 	briefing: "Some valid briefing text here<br /><br />All is valid. 'Quotes' too!",
 	map_shot: ""
 }

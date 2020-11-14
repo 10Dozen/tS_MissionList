@@ -6,6 +6,7 @@
 	terrain: "Terrain",
 	tags: [],
 	overview: "",
+	overview_img: "",
 	briefing: "&lt;no data&gt;",
 	map_shot: ""
 }
